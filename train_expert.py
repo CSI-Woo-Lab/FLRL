@@ -15,6 +15,11 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--env_id", type=int, default=argparse.SUPPRESS)
 args = parser.parse_args()
 
+mode = ['easy', 'normal', 'hard', 'very_hard']
+
+for idx, obs_conf in enumerate(config_set):
+    register(id='Custom-Navi-Vel-Full-Obs-Task{}_{}-v0'.format(idx%8, mode[idx//8]), entry_point="env_wrapper:CustomEnv2", max_episode_steps=200, kewargs=dict(task_args=obs_conf))
+
 env_name = f"Navi-Vel-Full-Obs-Task{args.env_id}_easy-v0"
 #for idx, obs_conf in enumerate(config_set):
 #    register(id='Navi-Vel-Full-Obs-Task0_easy-v0', entry_point='env_wrapper:CustomEnv2', max_episode_steps=200, kwargs=dict(task_rags=obs_conf))
