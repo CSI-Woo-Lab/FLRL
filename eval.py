@@ -1,3 +1,4 @@
+from gym.envs import register
 import random
 from collections import OrderedDict
 import csv
@@ -13,6 +14,7 @@ from stable_baselines3.common.env_util import make_vec_env
 from datetime import datetime
 import os
 import argparse
+from config import *
 
 def set_random_seed(seed: int, using_cuda: bool = False) -> None:
     # Seed python RNG
@@ -58,20 +60,26 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--env_id", type=int, default=argparse.SUPPRESS)
 args=parser.parse_args()
 
-env_name = f"Navi-Vel-Full-Obs-Task{args.env_id}_easy-v0"
+mode = ['easy', 'normal', 'hard', 'very_hard']
+
+for idx, obs_conf in enumerate(config_set):
+    register( id='Custom-Navi-Vel-Full-Obs-Task{}_{}-v0'.format(idx%8, mode[idx//8]), entry_point='env_wrapper:CustomEnv2', max_episode_steps=200, kwargs=dict(task_args=obs_conf))
+    
+env_name = f"Custom-Navi-Vel-Full-Obs-Task{args.env_id}_easy-v0"
 env = gym.make(env_name)
 
 env.seed(508)
 set_random_seed(508)
 
 
-main_dir_name= 'forl_logs/model_20220822211006_cql_Navi-Vel-Full-Obs-Task0_easy-v0_800_round_models'
-
+main_dir_name= 'forl_logs/model_20220829152614_cql_Navi-Vel-Full-Obs-Task0_easy-v0_800_round_models'
 algo = "CQL-FL"
 n_client = 4
 n_epoch = 2
-csv_file = open("task{args.env_id}.csv", "w")
-#csv_file = open("rm.csv", "w")
+
+fname = f'task{args.env_id}.csv'
+csv_file = open(fname, 'w')
+
 writer = csv.writer(csv_file, delimiter=",")
 writer.writerow(["Client Algo.", "Num. Client", "Local Epoch", "Test Score", "Round"])
 

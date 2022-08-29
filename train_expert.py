@@ -9,7 +9,7 @@ from config import *
 
 # python train_online.py --env_id {env_id}
 
-learning_timesteps = 10_000
+learning_timesteps = 100_000
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--env_id", type=int, default=argparse.SUPPRESS)
@@ -22,9 +22,6 @@ for idx, obs_conf in enumerate(config_set):
     register( id="Custom-Navi-Vel-Full-Obs-Task{}_{}-v0".format(idx%8, mode[idx//8]), entry_point="env_wrapper:CustomEnv2", max_episode_steps=200, kwargs=dict(task_args=obs_conf)) 
     
 env_name = f"Custom-Navi-Vel-Full-Obs-Task{args.env_id}_easy-v0"
-#for idx, obs_conf in enumerate(config_set):
-#    register(id='Navi-Vel-Full-Obs-Task0_easy-v0', entry_point='env_wrapper:CustomEnv2', max_episode_steps=200, kwargs=dict(task_rags=obs_conf))
-
 env = gym.make(env_name)
 obs = env.reset()
 print(obs)

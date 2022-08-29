@@ -22,7 +22,7 @@ from stable_baselines3.common.env_util import make_vec_env
 from gym.envs import register
 from config import *
 
-# python fl_client.py --num_trajectories {num_trajectories} --seed {seed}
+# python fl_client.py --num_trajectories {num_trajectories} --seed {seed} --env_id 0
 # num_trajectories should be correspond to the number of trajectories that each client gets and seed should corresponds to the seed that you've gave to the dataset when you created it
 
 
@@ -35,14 +35,12 @@ def main(args):
     dataset = MDPDataset.load(dataset_path)
     train_episodes = dataset
     
-    env_name = f"Custom-Navi-Vel-Full-Obs-Task{args.env_id}-easy-v0"
     for idx, obs_conf in enumerate(config_set):
-        register( id="Navi-Vel-Full-Obs-Task{}-{}-v0".format(idx%8, mode[idx//8]), entry_point="env_wrapper:CustomEnv2", max_episode_steps=200, kwargs=dict(task_args=obs_conf)) 
+        register( id="Custom-Navi-Vel-Full-Obs-Task{}-{}-v0".format(idx%8, mode[idx//8]), entry_point="env_wrapper:CustomEnv2", max_episode_steps=200, kwargs=dict(task_args=obs_conf)) 
     
-    env = gym.make('Navi-Vel-Full-Obs-Task5-easy-v0')
-    x= env.reset()
-    print(x)
-    #env = gym.make(env_name) 
+    env_name = f'Custom-Navi-Vel-Full-Obs-Task{args.env_id}-easy-v0'
+    env = gym.make(env_name)
+
     evaluate_scorer = evaluate_on_environment(env, 10)
 
     algos_dict = {

@@ -29,5 +29,5 @@ def main(seed):
 
 if __name__ == "__main__":
     for i in range(args.num_clients):
-        seed = 100 + i
+        seed = 300 + i
         main(seed)

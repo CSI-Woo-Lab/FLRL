@@ -1,6 +1,10 @@
+from gym.envs import register
+
 import torch
 import argparse
-import gym, navigation_2d
+import gym
+from env_wrapper import *
+from config import *
 import torch
 from stable_baselines3 import SAC
 from stable_baselines3.common.buffers import ReplayBuffer
@@ -22,11 +26,16 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 # Change the seed if needed
 
 # Set Environment
-env_name = f"Navi-Vel-Full-Obs-Task{args.env_id}_easy-v0"
+mode = ['easy', 'normal', 'hard', 'very_hard']
+
+for idx, obs_conf in enumerate(config_set):
+    register(id='Custom-Navi-Vel-Full-Obs-Task{}_{}-v0'.format(idx%8, mode[idx//8]), entry_point='env_wrapper:CustomEnv2', max_episode_steps=200, kwargs=dict(task_args=obs_conf))
+
+env_name = f"Custom-Navi-Vel-Full-Obs-Task{args.env_id}_easy-v0"
 env = gym.make(env_name)
 
 # Load agent
-expert_model = f"models_env_id_{args.env_id}/model-Navi-Vel-Full-Obs-Task{args.env_id}_easy-v0_{args.expert_steps}_steps.zip"
+expert_model = f"models_env_id_{args.env_id}/model-Custom-Navi-Vel-Full-Obs-Task{args.env_id}_easy-v0_{args.expert_steps}_steps.zip"
 agent = SAC.load(expert_model)
 
 # Set replay buffer
@@ -39,7 +48,7 @@ replay_buffer = ReplayBuffer(
 
 # Make replay buffer
 for i in range(args.num_clients):
-    seed = 100 + i
+    seed = 300 + i
     torch.manual_seed(seed)
     env.seed(seed)
     total_reward = 0
