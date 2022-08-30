@@ -105,13 +105,13 @@ _________________________________________________
         return ‘scheduler’
         
 
-### 3.1 flserver.py
+### 3.1 fl_server.py
 
 example) python fl_server.py —env_id 0
 
 : initiate a server
 
-### 3.2. flclient.py
+### 3.2. fl_client_org.py
 
 ** change learning_rate_scheduler
 
