@@ -8,7 +8,8 @@
 - navigation_2d,
 - stable_baseline3
 - tensorboard
-- Before anything, **change goal position**
+- Change 'navigation_2d.navigation_env' to goal_env.navigation_env_with_goal' by git clone git@github.com:jhok0623/goal_env.git
+- After that, **change goal position**
     - navigation_2d.navigation_env.drone_start.pos
         
         Currently: [0.5, 0.5]
