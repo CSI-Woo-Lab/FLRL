@@ -3,7 +3,7 @@ from gym.envs import register
 import torch
 import argparse
 import gym, navigation_2d
-from config import *
+
 import torch
 from stable_baselines3 import SAC
 from stable_baselines3.common.buffers import ReplayBuffer
@@ -29,7 +29,7 @@ env_name = f"Navi-Vel-Full-Obs-Task{args.env_id}_easy-v0"
 env = gym.make(env_name)
 
 # Load agent
-expert_model = f"models_env_id_{args.env_id}/model-Custom-Navi-Vel-Full-Obs-Task{args.env_id}_easy-v0_{args.expert_steps}_steps.zip"
+expert_model = f"models_env_id_{args.env_id}/model-Navi-Vel-Full-Obs-Task{args.env_id}_easy-v0_{args.expert_steps}_steps.zip"
 agent = SAC.load(expert_model)
 
 # Set replay buffer
