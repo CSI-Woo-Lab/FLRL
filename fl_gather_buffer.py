@@ -2,8 +2,7 @@ from gym.envs import register
 
 import torch
 import argparse
-import gym
-from env_wrapper import *
+import gym, navigation_2d
 from config import *
 import torch
 from stable_baselines3 import SAC
@@ -26,12 +25,7 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 # Change the seed if needed
 
 # Set Environment
-mode = ['easy', 'normal', 'hard', 'very_hard']
-
-for idx, obs_conf in enumerate(config_set):
-    register(id='Custom-Navi-Vel-Full-Obs-Task{}_{}-v0'.format(idx%8, mode[idx//8]), entry_point='env_wrapper:CustomEnv2', max_episode_steps=200, kwargs=dict(task_args=obs_conf))
-
-env_name = f"Custom-Navi-Vel-Full-Obs-Task{args.env_id}_easy-v0"
+env_name = f"Navi-Vel-Full-Obs-Task{args.env_id}_easy-v0"
 env = gym.make(env_name)
 
 # Load agent
