@@ -18,6 +18,7 @@ parser.add_argument("--env_id", type=int, default=argparse.SUPPRESS)
 parser.add_argument("--expert_steps", type=int, default=argparse.SUPPRESS)
 parser.add_argument("--num_trajectories", type=int, default=argparse.SUPPRESS)
 parser.add_argument("--num_clients", type=int, default=argparse.SUPPRESS)
+parser.add_argument("--dataset_name", type=int, default=argparse.SUPPRESS)
 args = parser.parse_args()
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -42,9 +43,8 @@ replay_buffer = ReplayBuffer(
 
 # Make replay buffer
 for i in range(args.num_clients):
-    seed = 300 + i
-    torch.manual_seed(seed)
-    env.seed(seed)
+    dataset_name = args.dataset_name
+    count = dataset_name + i
     total_reward = 0
     for _ in tqdm(range(args.num_trajectories)):
         done = False
@@ -60,6 +60,6 @@ for i in range(args.num_clients):
     print(total_reward / args.num_trajectories)
 
     save_to_pkl(
-        f"buffers_fl/replay-buffer-Navi-Vel-Full-Obs-Task{args.env_id}_easy-v0-ntraj-{args.num_trajectories}_{seed}.pkl",
+        f"buffers_fl/replay-buffer-Navi-Vel-Full-Obs-Task{args.env_id}_easy-v0-ntraj-{args.num_trajectories}_{count}.pkl",
         replay_buffer,
     )
