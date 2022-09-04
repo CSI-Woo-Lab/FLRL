@@ -22,16 +22,13 @@ from stable_baselines3.common.env_util import make_vec_env
 from gym.envs import register
 from config import *
 
-# python fl_client.py --num_trajectories {num_trajectories} --seed {seed}
-# num_trajectories should be correspond to the number of trajectories that each client gets and seed should corresponds to the seed that you've gave to the dataset when you created it
+# python fl_client.py --num_trajectories {num_trajectories} --dataset_name {dataset_name}
 
-
-mode = ["easy", "normal", "hard", "very_hard"]
 
 def main(args):
     """Create model, load data, define Flower client, start Flower client."""
     # Load data
-    dataset_path=f"buffers_fl/mdp-dataset-Navi-Vel-Full-Obs-Task{args.env_id}_easy-v0-ntraj-{args.num_trajectories}_{args.seed}.h5"
+    dataset_path=f"buffers_fl/mdp-dataset-Navi-Vel-Full-Obs-Task{args.env_id}_easy-v0-ntraj-{args.num_trajectories}_{args.dataset_name}.h5"
     dataset = MDPDataset.load(dataset_path)
     train_episodes = dataset
     
