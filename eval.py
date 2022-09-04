@@ -58,21 +58,17 @@ def scorer(algo, env, n_trials, epsilon=0):
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--env_id", type=int, default=argparse.SUPPRESS)
+parser.add_argument("--model_name", type=str, default=argparse.SUPPRESS)
 args=parser.parse_args()
 
-mode = ['easy', 'normal', 'hard', 'very_hard']
-
-for idx, obs_conf in enumerate(config_set):
-    register( id='Custom-Navi-Vel-Full-Obs-Task{}_{}-v0'.format(idx%8, mode[idx//8]), entry_point='env_wrapper:CustomEnv2', max_episode_steps=200, kwargs=dict(task_args=obs_conf))
-    
-env_name = f"Custom-Navi-Vel-Full-Obs-Task{args.env_id}_easy-v0"
+env_name = f"Navi-Vel-Full-Obs-Task{args.env_id}_easy-v0"
 env = gym.make(env_name)
 
 env.seed(508)
 set_random_seed(508)
 
-
-main_dir_name= 'forl_logs/model_20220829152614_cql_Navi-Vel-Full-Obs-Task0_easy-v0_800_round_models'
+model_name = args.model_name
+main_dir_name= f'forl_logs/' + model_name
 algo = "CQL-FL"
 n_client = 4
 n_epoch = 2
@@ -113,7 +109,7 @@ for round in tqdm(range(1, 800)):
     _, success_rate = scorer(agent, env, 100)
     round_success_rate += success_rate
     
-    writer.writerow([algo, n_client, n_epoch, success_rate, round])
+    writer.writerow([algo, n_client, n_epoch, round, success_rate])
 
     #for score in score_list:
     #    writer.writerow([algo, n_client, n_epoch, score, round])
