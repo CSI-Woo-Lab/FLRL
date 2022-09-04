@@ -26,8 +26,6 @@ from config import *
 # num_trajectories should be correspond to the number of trajectories that each client gets and seed should corresponds to the seed that you've gave to the dataset when you created it
 
 
-mode = ["easy", "normal", "hard", "very_hard"]
-
 def main(args):
     """Create model, load data, define Flower client, start Flower client."""
     # Load data
