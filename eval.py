@@ -80,7 +80,7 @@ writer = csv.writer(csv_file, delimiter=",")
 writer.writerow(["Client Algo.", "Num. Client", "Local Epoch", "Test Score", "Round"])
 
 round_success_rate = 0.0
-for round in tqdm(range(1, 800)):
+for round in tqdm(range(300, 401)):
 
     agent = CQL()
     agent.build_with_env(env)
