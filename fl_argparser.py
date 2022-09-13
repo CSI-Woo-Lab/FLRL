@@ -10,5 +10,6 @@ parser.add_argument("--client_algo", type=str, default="cql")
 parser.add_argument("--fl_num_client", type=int, default=4)
 parser.add_argument("--num_local_epoch", type=int, default=2)
 parser.add_argument("--dataset_path", type=str, default=argparse.SUPPRESS)
+parser.add_argument("--dataset_name", type=int)
 
 args=parser.parse_args()
