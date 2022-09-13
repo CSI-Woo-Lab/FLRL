@@ -77,7 +77,7 @@ fname = f'task{args.env_id}.csv'
 csv_file = open(fname, 'w')
 
 writer = csv.writer(csv_file, delimiter=",")
-writer.writerow(["Client Algo.", "Num. Client", "Local Epoch", "Test Score", "Round"])
+writer.writerow(["Client Algo.", "Num. Client", "Local Epoch", "Round", "Test Score"])
 
 round_success_rate = 0.0
 for round in tqdm(range(300, 401)):
